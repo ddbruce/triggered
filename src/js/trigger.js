@@ -29,6 +29,7 @@ const trigger = (originalText) => {
 }
 
 window.onload = () => {
+  document.getElementById("triggeredText").placeholder = trigger("...and receive triggered snowflake text here");
   document.getElementById("triggered").addEventListener("click", () => {
     document.getElementById("triggeredText").value = trigger(document.getElementById("originalText").value);
     document.getElementById("triggeredText").select();
