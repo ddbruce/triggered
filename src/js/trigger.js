@@ -1,32 +1,23 @@
 const trigger = (originalText) => {
   originalText = originalText.toLowerCase();
   let triggeredText = "";
-  let upCount = 0;
-  let downCount = 0;
-  const maxSameCase = 2;
+  let end = [];
   for (let i = 0; i < originalText.length; i++) {
-    if (downCount === maxSameCase) {
-      triggeredText = triggeredText.concat(originalText.charAt(i).toUpperCase());
-      upCount++;
-      downCount = 0;
-    } else if (upCount === maxSameCase){
-      triggeredText = triggeredText.concat(originalText.charAt(i));
-      downCount++;
-      upCount = 0;
-    } else {
-      if (Math.round(Math.random())) {
-        triggeredText = triggeredText.concat(originalText.charAt(i).toUpperCase());
-        upCount++;
-        downCount = 0
-      } else {
-        triggeredText = triggeredText.concat(originalText.charAt(i));
-        downCount++;
-        upCount = 0;
-      }
+    if (/[^a-zA-Z0-9]/.test(originalText[i])) {
+      triggeredText += originalText[i];
+      continue
     }
+    if (i === 0 || i === 1 || /[a-z]/.test(triggeredText[end[end.length - 1]]) !== /[a-z]/.test(triggeredText[end[end.length - 2]])) {
+      triggeredText += Math.round(Math.random()) ? originalText[i].toUpperCase() : originalText[i];
+    } else if (/[a-z]/.test(triggeredText[end[end.length - 1]])) {
+      triggeredText += originalText[i].toUpperCase();
+    } else {
+      triggeredText += originalText[i];
+    }
+    end.push(i)
   }
   return triggeredText;
-}
+};
 
 window.onload = () => {
   document.getElementById("triggeredText").placeholder = trigger("...and receive triggered snowflake text here");
@@ -43,4 +34,4 @@ window.onload = () => {
     </button>
     </div>`
   });
-}
+};
